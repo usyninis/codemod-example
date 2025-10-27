@@ -52,7 +52,6 @@ export function transformCode(filePath: string) {
     fs.writeFileSync(filePath, updatedCode);
 
     if (isChanged) {
-        console.log(updatedCode);
         console.log(`Файл ${filePath} успешно обработан.`);
     }
   } catch (err) {
