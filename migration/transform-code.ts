@@ -1,7 +1,7 @@
 import fs from 'fs';
 import jscodeshift from 'jscodeshift';
 
-// Трансформатор для замены старых вызовов на новые
+// Трансформер для замены старых вызовов на новые
 export function transformCode(filePath: string) {
   try {
     // Читаем содержимое файла
@@ -31,9 +31,10 @@ export function transformCode(filePath: string) {
         // Изменяем имя вызываемой функции
         path.node.callee.name = "myFuncNew";
         
-        // Преобразуем строку аргумента в объект
+        // запоминаем строку аргумента
         let argValue = 'value' in path.node.arguments[0] ? (path.node.arguments[0].value ?? '') : '';
 
+        // заменяем сигнатуру вызова функции
         path.node.arguments = [
           jscodeshift.objectExpression([
             jscodeshift.property("init", jscodeshift.identifier("name"), jscodeshift.literal(argValue))
@@ -48,7 +49,7 @@ export function transformCode(filePath: string) {
     const updatedCode = astRoot.toSource();
 
     // Сохраняем обратно в файл
-    // fs.writeFileSync(filePath, updatedCode);
+    fs.writeFileSync(filePath, updatedCode);
 
     if (isChanged) {
         console.log(updatedCode);
