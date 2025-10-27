@@ -1,12 +1,8 @@
-import { myFuncNew } from "my-package";
+import { myFunc } from "my-package";
 
-const res1 = myFuncNew({
-    name: "Ivan"
-});
+const res1 = myFunc('Ivan');
 
-const res2 = myFuncNew({
-    name: "Alex"
-});
+const res2 = myFunc('Alex');
 
 export default {
     res1,
