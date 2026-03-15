@@ -17,9 +17,9 @@ export function transformCode(filePath: string) {
             if (specifier.type === "ImportSpecifier" && specifier.imported.name === "myFunc" && specifier.local) {
                 // Меняем импорт myFunc на myFuncNew
                 specifier.local.name = "myFuncNew";
+                isChanged = true;
             }
         });
-        isChanged = true;
     });
 
     // Замещаем вызовы myFunc() на myFuncNew()
@@ -31,8 +31,11 @@ export function transformCode(filePath: string) {
         // Изменяем имя вызываемой функции
         path.node.callee.name = "myFuncNew";
         
-        // запоминаем строку аргумента
-        let argValue = 'value' in path.node.arguments[0] ? (path.node.arguments[0].value ?? '') : '';
+        // запоминаем строку аргумента с проверкой на существование
+        let argValue = '';
+        if (path.node.arguments[0] && 'value' in path.node.arguments[0]) {
+            argValue = path.node.arguments[0].value ?? '';
+        }
 
         // заменяем сигнатуру вызова функции
         path.node.arguments = [

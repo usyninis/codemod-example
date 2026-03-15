@@ -6,7 +6,7 @@
 
 `npm install`
 
-`npm run migration` 
+`npm run migrate` 
 
 после запуска миграции все файлы в папке `src` будут преобразованы согласно скрипту миграции в файле `migration/index.ts`
 
