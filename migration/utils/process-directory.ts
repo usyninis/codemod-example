@@ -11,6 +11,11 @@ export function processDirectory(dirPath: string, transformCode: (filePath: stri
     const fullPath = path.join(dirPath, file);
     const stat = fs.statSync(fullPath);
 
+    // Пропускаем символические ссылки для избежания бесконечной рекурсии
+    if (stat.isSymbolicLink()) {
+      continue;
+    }
+
     if (stat.isDirectory()) {
       processDirectory(fullPath, transformCode); // Рекурсия для вложенных папок
     } else if (extensions.find((extension) => fullPath.endsWith(extension))) {
